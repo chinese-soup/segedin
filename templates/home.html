@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Segedín v Plzni</title>
+    <link rel="shortcut icon" href="static/favicon.ico" />
+    <!-- Bootstrap style and JS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <!-- jQuery JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.0/jquery-ui.min.js"></script>
+
+    <script src="static/js.cookie.js"></script>
+    <link rel="stylesheet" href="static/style.css">
+    <script>
+        function lol()
+        {
+            $( ".sidebarlink" ).click({param1: this}, blikejVoe);
+            $( "#resetcookieslink" ).click({param1: this}, resetCookies);
+
+            $('.cbox').each(function( index )
+                {
+                    var cookie = Cookies.get("cbox_" + index);
+                    if(cookie == "undefined")
+                    {
+                        Cookies.set("cbox_" + cislo, 1);
+                    }
+                    console.log(index + "; index = " + cookie);
+                    if(cookie == 0)
+                    {
+                        $("#cbox_" + index).prop("checked", false);
+                        $(".listek" + index).hide(); // proč máš pro checkboxy idčka a pro listky classu lol
+                    }
+                    else
+                    {
+                        $("#cbox_" + index).prop("checked", true);
+                    }
+                });
+
+
+            $('.cbox').change(function(event)
+            {
+                var cislo = this.id.split("_")[1];
+
+                if (this.checked)
+                {
+                    Cookies.set("cbox_" + cislo, 1);// lol prase
+                    $(".listek" + cislo).fadeIn();
+                }
+                else
+                {
+                    Cookies.set("cbox_" + cislo, 0); // lol prase
+                    $(".listek" + cislo).fadeOut();
+                }
+            });
+
+            function blikejVoe(event)
+            {
+                var cislo = event.target.id.split("_")[1];
+                $(".listek" + cislo).effect("highlight", {color: "#4E88FF"}, 1500);
+                Cookies.set("cbox_" + cislo, 1);// lol prase
+                $("#cbox_" + cislo).prop("checked", true);
+            }
+
+            function resetCookies() // lol prase
+            {
+                $('.cbox').each(function( index )
+                {
+                    Cookies.remove("cbox_" + index);
+                });
+
+                location.reload();
+            }
+        }
+    </script>
+</head>
+<body onload="lol();">
+  <nav id="datum" class="navbar" style="background-color: {% if segedin|length == 0 %}rgb(128, 128, 128);{% else %}#6d9c51;{% endif %} color:#fafafa;">
+      <button type="button" id="sidebarCollapse" class="navbar-btn">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+      <span class="nav">
+        <li>
+            <h3>{{dnesni_datum}}</h3>
+            {% if segedin|length != 0 %}
+                &#x1F389; &#x1F973; Dnes <strong>mají</strong> segedín tyto restaurace:
+                <ul>
+                {% for i in segedin %}
+                    <li><strong>{{ i[1] }}</strong> -- {{ i[0] }}</li>
+                {% endfor %}
+                    </ul>
+            {% else %}
+                Bohužel to vypadá, že dnes segedín nikde není. &#128532;
+            {% endif %}
+        </li>
+      </span>
+  </nav>
+
+  <div class="wrapper">
+    <nav id="sidebar">
+    <!-- sidebar -->
+      <ul class="nav nav-pubs">
+        <h2>Restaurace</h2>
+        <form>
+          {% for i in range(0, nazvy|length) %}
+              <li><input type="checkbox" class="cbox" id="cbox_{{i}}" value="cbox{{i}}" checked>
+                <a href="#{{nazvy[i]}}" class="sidebarlink" id="sidebarlinkid_{{i}}">{{nazvy[i]}}</a>
+              </li>
+          {% endfor %}
+        </form>
+      </ul>
+      <ul class="nav nav-others">
+        <h2>Ostatní</h2>
+        <li>
+          <a id="resetcookieslink" href="#">Resetovat cookies (filtr restaurací)</a>
+        </li>
+      </ul>
+    </nav>
+    <div id="content">
+      <div class="container-fluid">
+        <div class="row">
+          {% for i in range(0, jidla|length ) %}
+          <div class="col-lg-6 col-md-6 col-sm-6 listek listek{{i}}">
+            <h2 id="{{nazvy[i]}}"><a href="{{urlka[i]}}">{{nazvy[i]}}</a></h2>
+            <p>Datum: {%- if datumy[i]  is not none -%}{{ " " + datumy[i].upper() }}{% endif %}</p>
+            <table class="table">
+              <thead>
+                <tr>
+                  <th data-sort="str" style="font-weight:bold;" width="87%" >Jídlo</th>
+                  <th data-sort="int" style="font-weight:bold;" width="13%">Cena</th>
+                </tr>
+              </thead>
+                <tbody>
+                    {% for y in jidla[i] %}
+                     <tr  {% if 'sege' in y[0]|lower %}class="segedin_alert"
+                         {% endif %}>
+                        <td
+
+                         >{{y[0]}}</td>
+                        <td>{{y[1]}}</td>
+                        <!--<td>{{i.2}}</td>-->
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

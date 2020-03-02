@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Segedín v Plzni</title>
+    <link rel="shortcut icon" href="static/favicon.ico" />
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/ui/1.12.0/jquery-ui.min.js"></script>
+    <script src="static/js.cookie.js"></script>
+    <script>
+        $(document).ready(function() {
+        $('[data-toggle=offcanvas]').click(function() {
+        $('.row-offcanvas').toggleClass('active');
+        });
+        });
+    </script>
+    <!-- <script type="text/javascript" src="/static/stupidtable.js"></script>-->
+    <style> /* shamelessly stolen from http://www.bootply.com/88026 */
+        h1
+        {
+            font-size: 36px !important;
+        }
+        a
+        {
+            color: rgb(0, 0, 102);   
+        }
+        a.visited 
+        {
+            color: rgb(0, 0, 102);   
+        }
+        #sidebar
+        {
+            height: 100%;
+            padding-right: 0;
+            padding-top: 20px;
+            z-index: 9999999;
+            
+        }
+        .jumbotron
+        {
+            background-image: /*url('static/logo.png');*/
+            width: 100%;
+        }
+        #sidebar .nav 
+        {
+            width: 97%;
+            display: inline-block;
+        }
+        #sidebar li 
+        {
+            border:0 #f2f2f2 solid;
+            border-bottom-width:1px;
+        }
+        /* collapsed sidebar styles */
+        @media screen and (max-width: 767px) 
+        {
+            .row-offcanvas 
+            {
+                position: relative;
+                -webkit-transition: all 0.25s ease-out;
+                -moz-transition: all 0.25s ease-out;
+                transition: all 0.25s ease-out;
+            }
+
+            .row-offcanvas-right
+            .sidebar-offcanvas 
+            {
+                right: -38.6%;
+            }
+
+            .row-offcanvas-left
+            .sidebar-offcanvas 
+            {
+                left: -38.6%;
+            }
+            .row-offcanvas-right.active 
+            {
+                right: 38.6%;
+            }
+            .row-offcanvas-left.active 
+            {
+                left: 38.6%;
+            }
+            .sidebar-offcanvas 
+            {
+                position: absolute;
+                top: 0;
+                width: 38.6%;
+            }
+            #sidebar 
+            {
+                padding-top:0;
+            }
+    }
+
+
+    tr.segedin_alert
+    {
+        font-size: 24px;
+        color: red;
+        animation: segedin_alert_anim 3s;
+        animation-iteration-count:infinite;
+    }
+    @keyframes segedin_alert_anim
+    {
+        0%, 100% { background-color: rgb(255, 255, 255);  }
+        50% { background-color: rgb(128, 128, 128, 0.3); }
+    }
+
+    </style>
+    <script>
+        function lol()
+        {
+            $( ".sidebarlink" ).click({param1: this}, blikejVoe);
+            $( "#resetcookieslink" ).click({param1: this}, resetCookies);
+
+            $('.cbox').each(function( index )
+                {
+                    var cookie = Cookies.get("cbox_" + index);
+                    if(cookie == "undefined")
+                    {
+                        Cookies.set("cbox_" + cislo, 1);
+                    }
+                    console.log(index + "; index = " + cookie);
+                    if(cookie == 0)
+                    {
+                        $("#cbox_" + index).prop("checked", false);
+                        $(".listek" + index).hide(); // proč máš pro checkboxy idčka a pro listky classu lol
+                    }
+                    else
+                    {
+                        $("#cbox_" + index).prop("checked", true);
+                    }
+                });
+
+
+            $('.cbox').change(function(event)
+            {
+                var cislo = this.id.split("_")[1];
+
+                if (this.checked)
+                {
+                    Cookies.set("cbox_" + cislo, 1);// lol prase
+                    $(".listek" + cislo).fadeIn();
+                }
+                else
+                {
+                    Cookies.set("cbox_" + cislo, 0); // lol prase
+                    $(".listek" + cislo).fadeOut();
+                }
+            });
+
+            function blikejVoe(event)
+            {
+                var cislo = event.target.id.split("_")[1];
+                $(".listek" + cislo).effect("highlight", {color: "#4E88FF"}, 1500); // lol prase
+                Cookies.set("cbox_" + cislo, 1);// lol prase
+                $("#cbox_" + cislo).prop("checked", true);
+            }
+
+            function resetCookies() // lol prase
+            {
+                $('.cbox').each(function( index )
+                {
+                    Cookies.remove("cbox_" + index);
+                });
+
+                location.reload();
+            }
+        }
+
+    </script>
+</head>
+<body onload="lol();">
+   <div id="datum" class="jumbotron group" style="background-color: rgb(128, 128, 128);  background-repeat: no-repeat; height: 210px; color:#fafafa; background-position: right 20px bottom 58px;">
+        <div class="container-fluid">
+                <div class="col-lg-6 col-md-6 col-sm-6 pull-left hidden-xs">
+                     <h1>{{dnesni_datum}}</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid" style="color:rgb(22,22,22);">
+       <div class="row row-offcanvas row-offcanvas-left">
+        <!-- sidebar -->
+            <div class="col-lg-2 col-sm-2 sidebar-offcanvas" id="sidebar" role="navigation">
+            <button type="button" class="navbar-toggle" data-toggle="offcanvas" data-target=".sidebar-nav">
+             <span class="icon-bar"></span>
+             <span class="icon-bar"></span>
+             <span class="icon-bar"></span>
+           </button>
+                <h2>Restaurace</h2>
+                <ul class="nav">
+                <form>
+                 {% for i in range(0, nazvy|length) %}
+                    <li><input type="checkbox" class="cbox" id="cbox_{{i}}" value="cbox{{i}}" checked>
+                        <a href="#{{nazvy[i]}}" class="sidebarlink" id="sidebarlinkid_{{i}}">{{nazvy[i]}}</a>
+                    </li>
+                {% endfor %}
+                </form>
+                    <li>
+                        <a id="resetcookieslink" href="#">Resetovat filtr restaurací (cookies)</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-md-8">
+            {% for i in range(0, jidla|length) %}
+                {%- if i%2 -%}<div class="row group"> {% endif %}
+                <div class="col-lg-6 col-md-6 col-sm-6 listek listek{{i}}">
+                    <h2 id="{{nazvy[i]}}"><a href="{{urlka[i]}}">{{nazvy[i]}}</a></h2>
+                    <p>Datum: {%- if datumy[i]  is not none -%}{{ " " + datumy[i].upper() }}{% endif %}</p>
+                    <table class="table">
+                      <thead>
+                            <tr>
+                            <th data-sort="str" style="font-weight:bold;" width="84%" >Jídlo</th>
+                            <th data-sort="int" style="font-weight:bold;" width="25%">Cena</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for y in jidla[i] %}
+                             <tr  {% if 'seged' in y[0]|lower %}class="segedin_alert"
+                                 {% endif %}>
+                                <td
+
+                                 >{{y[0]}}</td>
+                                <td>{{y[1]}}</td>
+                                <!--<td>{{i.2}}</td>-->
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {%- if i%2 -%}</div> {% endif %}
+
+            {% endfor %}
+            </div>
+    </div>
+    </div>
+
+</body>
+</html>
