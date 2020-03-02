@@ -58,7 +58,11 @@ def return_menu(soup):
 
 
         try:
-            jidlo = jidlo.get_text()
+            for tag in jidlo.find_all('em'):
+                tag.replaceWith('')
+
+            jidlo = jidlo.get_text().strip()
+
         except:
             print("Gramaz neni.")
             jidlo = "N/A"
