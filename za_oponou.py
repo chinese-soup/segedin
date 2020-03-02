@@ -40,6 +40,11 @@ def return_menu(soup):
 
     for i in range(0, len(dny_array)):
         if i == denvtydnu:
+            try:
+                date = box[i].find_previous_sibling("h3").get_text().strip()
+            except:
+                pass
+
             rows = box[i].find_all("tr")
             for row in rows:
                 gramaz = row.find("td", {"class": "quantity"})
