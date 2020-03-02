@@ -45,8 +45,12 @@ def return_menu(soup):
     for den in dny_v_tydnu:
         if den.get_text() == dny[denvtydnu]:
             print("Found it, ", den.get_text())
+            date = den.get_text()
             box = den.parent
             break
+
+    if box is None:
+        return ["Chyba", "Chyba"]
 
     rows = box.find_all("div", {"class": "daymenu-item"})
 
