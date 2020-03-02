@@ -64,7 +64,9 @@ def return_menu(soup):
                 jidlo = "N/A"
 
             if jidlo != "N/A":
-                items.append([jidlo, "{} ({})".format(cena, gramaz)])
+                items.append(
+                    ["{} ({})".format(jidlo, gramaz), "{}".format(cena)]
+                )
 
         th = row.find("th", {"class": "dayHeader"})
         if th is not None:
