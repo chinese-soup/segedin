@@ -16,7 +16,7 @@ ZOMATO_API_KEY = "02701b5608a9248628e76ba78dd79992"
 locale.setlocale(locale.LC_TIME, "cs_CZ.UTF-8")
 
 def import_modules():
-    modules = ["lokal", "usalzmannu", "umansfelda", "za_oponou", "zumbera"]
+    modules = ["lokal", "usalzmannu", "umansfelda", "za_oponou", "zumbera", "andel"]
     imported = []
     for i in modules:
         imported.append(importlib.import_module(i, __name__))
@@ -32,7 +32,7 @@ cache = Cache(app, config={'CACHE_TYPE': 'simple'})
 imported = import_modules()
 
 @app.route("/", methods=["GET"])
-@cache.cached(timeout=2)
+@cache.cached(timeout=60)
 def home():
     nazvy = []
     urlka = []
