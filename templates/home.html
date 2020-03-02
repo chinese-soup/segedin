@@ -94,7 +94,17 @@
                 {% endfor %}
                     </ul>
             {% else %}
-                Bohužel to vypadá, že dnes segedín nikde není. &#128532;
+                {% set rand = range(1, 4) | random %}
+                {% if rand == 1 %}
+                    Dneska seš bez segoše, vole.
+                {% elif rand == 2 %}
+                    Bohužel to vypadá, že dnes segedín nikde není. &#128532;
+                {% elif rand == 3 %}
+                    Dnešní segedín = slzy, pláč a hladomor
+                {% else %}
+                    Segedín se nekoná!
+                {% endif %}
+
             {% endif %}
         </li>
       </span>

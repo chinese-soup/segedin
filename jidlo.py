@@ -32,7 +32,7 @@ cache = Cache(app, config={'CACHE_TYPE': 'simple'})
 imported = import_modules()
 
 @app.route("/", methods=["GET"])
-@cache.cached(timeout=60)
+@cache.cached(timeout=2)
 def home():
     nazvy = []
     urlka = []
