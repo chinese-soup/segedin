@@ -27,11 +27,9 @@ def prepare_bs(kantyna):
 
 def return_menu(soup):
     denvtydnu = datetime.today().weekday()
-    den = datetime.today().day # TODO: FIX
+    print(denvtydnu)
 
-    date = "N/A"
-
-    dny_array = soup.find("h3", {"class": "menu-line-head"})
+    dny_array = soup.find_all("h3", {"class": "menu-line-head"})
     box = soup.find_all("table", {"class": "menu-table"})
 
     items = []
