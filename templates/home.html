@@ -103,7 +103,7 @@
             {% else %}
                 {% set rand = range(1, 5) | random %}
                 {% if rand == 1 %}
-                    Dneska seš bez segoše, vole.
+                    Dneska seš bez segoše.
                 {% elif rand == 2 %}
                     Bohužel to vypadá, že dnes segedín nikde není. &#128532;
                 {% elif rand == 3 %}
@@ -150,7 +150,7 @@
               <thead>
                 <tr>
                   <th data-sort="str" style="font-weight:bold;" width="87%" >Jídlo</th>
-                  <th data-sort="int" style="font-weight:bold;" width="13%">Cena</th>
+                  {% if nazvy[i] != "Bistro Anděl" %}<th data-sort="int" style="font-weight:bold;" width="13%">Cena</th>{% endif %}
                 </tr>
               </thead>
                 <tbody>
@@ -160,7 +160,7 @@
                         <td
 
                          >{{y[0]}}</td>
-                        <td>{{y[1]}}</td>
+                        {% if nazvy[i] != "Bistro Anděl" %}<td>{{y[1]}}</td>{% endif %}
                         <!--<td>{{i.2}}</td>-->
                     </tr>
                     {% endfor %}
