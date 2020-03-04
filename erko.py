@@ -47,22 +47,14 @@ def return_menu(soup):
                 #gramaz = row.find("td", {"class": "quantity"})
                 tds = row.find_all("td")
                 if len(tds) != 0:
-                    gramaz = ""
                     jidlo = tds[1]
                     cena = tds[2]
-                    #TOOD: redo lol
+
                     try:
                         cena = cena.get_text()
                     except:
                         print("Cena není.")
                         cena = "?"
-
-                    try:
-                        gramaz = gramaz.get_text()
-                    except:
-                        print("Gramaz neni.")
-                        gramaz = "N/A"
-
                     try:
                         jidlo = jidlo.get_text()
                     except:
@@ -71,7 +63,7 @@ def return_menu(soup):
 
                     if jidlo != "N/A":
                         items.append(
-                            ["{} ({})".format(jidlo, gramaz), "{}".format(cena)]
+                            ["{}".format(jidlo), "{}".format(cena)]
                         )
 
         else:

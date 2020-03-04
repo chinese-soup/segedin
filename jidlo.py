@@ -16,7 +16,7 @@ ZOMATO_API_KEY = "02701b5608a9248628e76ba78dd79992"
 locale.setlocale(locale.LC_TIME, "cs_CZ.UTF-8")
 
 def import_modules():
-    modules = ["lokal", "umansfelda", "za_oponou", "zumbera", "andel", "usalzmannu"]
+    modules = ["lokal", "umansfelda", "za_oponou", "zumbera", "andel", "usalzmannu", "erko"]
     imported = []
     for i in modules:
         imported.append(importlib.import_module(i, __name__))
