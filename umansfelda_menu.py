@@ -13,7 +13,7 @@ def get_name():
 
 def get_file():
     kantyna = []
-    with open("helper/mansfeld_ocr.txt") as f:
+    with open("helper/mansfeld_ocr.txt", "r", encoding="utf-8") as f:
         kantyna = f.readlines()
     return kantyna
 
