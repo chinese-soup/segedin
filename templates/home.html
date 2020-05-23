@@ -101,7 +101,7 @@
                 {% endfor %}
                     </ul>
             {% else %}
-                {% set rand = range(1, 5) | random %}
+                {% set rand = range(1, 8) | random %}
                 {% if rand == 1 %}
                     Dneska seš bez segoše.
                 {% elif rand == 2 %}
@@ -110,6 +110,10 @@
                     Dnešní segedín = slzy, zklamání a hladomor &#128532;
                 {% elif rand == 4 %}
                     Zase nic &#128532; &#128532; &#128532; &#128532; &#128532; &#128532; &#128532;
+                {% elif rand == 5 %}
+                    A dneska k obědu zase máme hlad.
+                {% elif rand == 6 %}
+		    Fuck.
                 {% else %}
                     Segedín se nekoná!
                 {% endif %}
